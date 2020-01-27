@@ -4,6 +4,11 @@ import { Text, TextInput, View, StyleSheet, Button, Image } from "react-native";
 const buttonColor = "#008577";
 
 class Login extends Component{
+    static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('otherParam', 'Login'),
+    };
+    }
     render(){
         return(
             <View style={styles.basicView}>
@@ -30,7 +35,7 @@ const styles = StyleSheet.create({
         height: '100%',
         color: 'white',
         marginBottom: '10%',
-        backgroundColor: '#E26550'
+        backgroundColor: '#d84315'
     },
     basicText: {
         fontSize: 20,
@@ -39,14 +44,15 @@ const styles = StyleSheet.create({
     },
     basicInput: {
         borderWidth: 1,
-        margin: 5,
+        margin: 8,
         backgroundColor: '#fff'
      },
     basicButton: {
-        marginTop: 20
+        marginTop: 20,
+        margin: 21
      },
      basicImage: {
-         width: '50%',
+         width: '40%',
          height: '30%',
          alignSelf: 'center'
      }
