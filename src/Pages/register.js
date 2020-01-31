@@ -14,7 +14,7 @@ class Register extends Component{
                 <Text style={styles.basicText}>Contraseña</Text>
                 <TextInput style={styles.basicInput}></TextInput>
                 <View style={styles.basicButton}>
-                    <Button title="Crear Usuario" color={buttonColor} onPress={() => this.props.navigation.navigate('Home')}></Button>
+                    <Button title="Crear Usuario" color={buttonColor}></Button>
                 </View>
             </View>
     )} 
