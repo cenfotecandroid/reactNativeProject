@@ -10,21 +10,38 @@ import {
 } from "react-native";
 import * as actions from '../actions/action-type';
 import {connect} from 'react-redux';
+import { firebase } from "@react-native-firebase/auth";
 
 class Home extends Component{
 
-    componentDidMount(){
-        this.props.getUsers();
+    componentDidMount() {
+      this.props.getUsers();
+      firebase.auth().onAuthStateChanged(user => {
+        this.props.navigation.navigate(user ? 'Home' : 'Login')
+      })
+    }
+
+    SignOut = () =>{
+      firebase
+          .auth()
+          .signOut()
+          .then(function() {
+              this.props.navigation.navigate('Login');
+          })
+          .catch((error) => {
+              console.log(error.toString(error));
+          });        
     }
     
 
     render(){
        return(
             <View style={styles.container}>
+              <View>
                 {
                 this.props.users.map(
                 item => (
-                    <TouchableOpacity
+                <TouchableOpacity
                     key={item.id}
                     onPress={() => console.warn('Pressed')
                     }
@@ -39,7 +56,12 @@ class Home extends Component{
                 </TouchableOpacity>
                 ))
                 }
+                </View>
+                <View>
+                  <Button title = "Desloguear" onPress={() => this.SignOut()}></Button>
+                </View>
             </View>
+            
        );
     }
 
