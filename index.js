@@ -13,12 +13,13 @@ import promiseMiddleware from 'redux-promise';
 import React from 'react';
 
 import reducers from './src/reducers';
+import store from './store';
 
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware)(createStore);
 
 const appRedux = () =>{
     return(
-    <Provider store={createStoreWithMiddleware(reducers)}>
+    <Provider store={store}>
         <App></App>
     </Provider>
     )

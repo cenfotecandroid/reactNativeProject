@@ -11,6 +11,8 @@ import {
 import * as actions from '../actions/action-type';
 import {connect} from 'react-redux';
 import { firebase } from "@react-native-firebase/auth";
+import LogoTitle from './logo';
+import logo from '../Images/ham-icon.png';
 
 class Home extends Component{
   
@@ -20,20 +22,6 @@ class Home extends Component{
         this.props.navigation.navigate(user ? 'Home' : 'Login')
       })
     }
-
-    SignOut = () =>{
-      firebase
-          .auth()
-          .signOut()
-          .then(function() {
-              this.props.navigation.navigate('Login');
-          })
-          .catch((error) => {
-              console.log(error.toString(error));
-          });        
-    }
-    
-
     render(){
        return(
             <View style={styles.container}>
@@ -58,20 +46,43 @@ class Home extends Component{
                 }
                 </View>
                 <View>
-                  <Button style={styles.basicButton} title = "Desloguear" onPress={() => this.SignOut()}></Button>
+                  
                 </View>
             </View>
             
        );
     }
 
+  
+SignOut = () => {
+      console.warn('cerrar session');
+      firebase
+          .auth()
+          .signOut()
+          .then(function() {
+              this.props.navigation.navigate('Login');
+          })
+          .catch((error) => {
+              console.log(error.toString(error));
+          });        
+    }
+
     //Top Bar Style inside component
+    
 static navigationOptions = ({ navigation }) => {
+  
     return {
-        title: 'Home',
+        headerTitle: () => (
+        <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.openDrawer()} >
+         <Image source={logo} style={{width: 30, height: 30}}></Image>
+       </TouchableOpacity>
+        ),
         headerStyle: {
           backgroundColor: '#bf360c',
         },
+        headerRight: () => (
+          <Button style={styles.basicButton} title = "Cerrar Sesion" onPress={() => this.SignOut()}></Button>
+        ),
         headerTintColor: '#fff',
         headerTitleStyle: {
         fontWeight: 'bold',
