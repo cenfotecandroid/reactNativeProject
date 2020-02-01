@@ -13,7 +13,7 @@ import {connect} from 'react-redux';
 import { firebase } from "@react-native-firebase/auth";
 
 class Home extends Component{
-
+  
     componentDidMount() {
       this.props.getUsers();
       firebase.auth().onAuthStateChanged(user => {
@@ -48,7 +48,7 @@ class Home extends Component{
                     >
                     <View style={styles.item}>
                     <Image 
-                        source={require('../Images/icon-bill.png')}
+                        source={require('../Images/icon-bill.jpg')}
                         style={styles.basicImage}
                     />
                         <Text style={styles.itemText1}>{item.name}</Text>
@@ -58,7 +58,7 @@ class Home extends Component{
                 }
                 </View>
                 <View>
-                  <Button title = "Desloguear" onPress={() => this.SignOut()}></Button>
+                  <Button style={styles.basicButton} title = "Desloguear" onPress={() => this.SignOut()}></Button>
                 </View>
             </View>
             
@@ -70,7 +70,7 @@ static navigationOptions = ({ navigation }) => {
     return {
         title: 'Home',
         headerStyle: {
-        backgroundColor: '#bf360c',
+          backgroundColor: '#bf360c',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -82,6 +82,7 @@ static navigationOptions = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     display: 'flex',
     paddingTop: 60,
     flexDirection: 'row',
@@ -90,7 +91,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   item: {
-    backgroundColor: '#4f83cc',
     width: 179,
     height: 89,
     marginLeft: 8,
@@ -98,14 +98,19 @@ const styles = StyleSheet.create({
   },
   itemText1: {
     textAlign: 'auto',
-    color: 'white',
+    color: 'black',
     padding: 20,
     fontSize: 13,
     fontFamily: 'roboto',
   },
-  basicImage: {
+  basicButton: {
     width: '10%',
     height: '10%',
+    alignSelf: 'stretch'
+  },
+  basicImage: {
+    width: '50%',
+    height: '50%',
     alignSelf: 'stretch'
   },
 });
