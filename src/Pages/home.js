@@ -8,7 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
-import * as actions from '../actions/action-types';
+import * as actions from '../actions/action-type';
 import {connect} from 'react-redux';
 
 class Home extends Component{
