@@ -1,32 +1,103 @@
-import React, { Component, useState, useEffect } from "react";
-import { Text, TextInput, View, StyleSheet, Button, Image } from "react-native";
-import { firebase } from "@react-native-firebase/auth";
+import React, { Component } from "react";
+import { 
+  ActivityIndicator, 
+  Text, 
+  View, 
+  Image,
+  Button,
+  StyleSheet,
+  TouchableOpacity
+} from "react-native";
+import * as actions from '../actions/action-types';
+import {connect} from 'react-redux';
 
-class Home extends Component{      
-    componentDidMount() {
-        firebase.auth().onAuthStateChanged(user => {
-          this.props.navigation.navigate(user ? 'Home' : 'Login')
-        })
-      }
-      
-    SignOut = () =>{
-        firebase
-            .auth()
-            .signOut()
-            .then(function() {
-                this.props.navigation.navigate('Login');
-            })
-            .catch((error) => {
-                console.log(error.toString(error));
-            });        
+class Home extends Component{
+
+    componentDidMount(){
+        this.props.getUsers();
     }
-    render(){        
-        return(
-            <View>
-                <Button title = "Desloguear" onPress={() => this.SignOut()}></Button>
+    
+
+    render(){
+       return(
+            <View style={styles.container}>
+                {
+                this.props.users.map(
+                item => (
+                    <TouchableOpacity
+                    key={item.id}
+                    onPress={() => console.warn('Pressed')
+                    }
+                    >
+                    <View style={styles.item}>
+                    <Image 
+                        source={require('../Images/icon-bill.png')}
+                        style={styles.basicImage}
+                    />
+                        <Text style={styles.itemText1}>{item.name}</Text>
+                    </View>
+                </TouchableOpacity>
+                ))
+                }
             </View>
-        )
+       );
+    }
+
+    //Top Bar Style inside component
+static navigationOptions = ({ navigation }) => {
+    return {
+        title: 'Home',
+        headerStyle: {
+        backgroundColor: '#bf360c',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+        fontWeight: 'bold',
+        },
+    };
     }
 }
 
-export default Home
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    paddingTop: 60,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'space-between',
+    flexWrap: 'wrap',
+  },
+  item: {
+    backgroundColor: '#4f83cc',
+    width: 179,
+    height: 89,
+    marginLeft: 8,
+    marginBottom: 8,
+  },
+  itemText1: {
+    textAlign: 'auto',
+    color: 'white',
+    padding: 20,
+    fontSize: 13,
+    fontFamily: 'roboto',
+  },
+  basicImage: {
+    width: '10%',
+    height: '10%',
+    alignSelf: 'stretch'
+  },
+});
+
+function mapStateToProps(state){
+    return{
+        users: state.user.userList
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        getUsers: () => dispatch(actions.getUsers()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
