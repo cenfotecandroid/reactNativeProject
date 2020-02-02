@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Login from "./src/Pages/login";
-import { View,StyleSheet } from "react-native";
+import { View,StyleSheet, SafeAreaView,ScrollView,Dimensions } from "react-native";
 
 //Navigation
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, DrawerItems} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 

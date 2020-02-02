@@ -11,29 +11,17 @@ import {
 import * as actions from '../actions/action-type';
 import {connect} from 'react-redux';
 import { firebase } from "@react-native-firebase/auth";
+import LogoTitle from './logo';
+import logo from '../Images/ham-icon.png';
 
 class Home extends Component{
-
+  
     componentDidMount() {
       this.props.getUsers();
       firebase.auth().onAuthStateChanged(user => {
         this.props.navigation.navigate(user ? 'Home' : 'Login')
       })
     }
-
-    SignOut = () =>{
-      firebase
-          .auth()
-          .signOut()
-          .then(function() {
-              this.props.navigation.navigate('Login');
-          })
-          .catch((error) => {
-              console.log(error.toString(error));
-          });        
-    }
-    
-
     render(){
        return(
             <View style={styles.container}>
@@ -48,7 +36,7 @@ class Home extends Component{
                     >
                     <View style={styles.item}>
                     <Image 
-                        source={require('../Images/icon-bill.png')}
+                        source={require('../Images/icon-bill.jpg')}
                         style={styles.basicImage}
                     />
                         <Text style={styles.itemText1}>{item.name}</Text>
@@ -58,20 +46,43 @@ class Home extends Component{
                 }
                 </View>
                 <View>
-                  <Button title = "Desloguear" onPress={() => this.SignOut()}></Button>
+                  
                 </View>
             </View>
             
        );
     }
 
+  
+SignOut = () => {
+      console.warn('cerrar session');
+      firebase
+          .auth()
+          .signOut()
+          .then(function() {
+              this.props.navigation.navigate('Login');
+          })
+          .catch((error) => {
+              console.log(error.toString(error));
+          });        
+    }
+
     //Top Bar Style inside component
+    
 static navigationOptions = ({ navigation }) => {
+  
     return {
-        title: 'Home',
+        headerTitle: () => (
+        <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.openDrawer()} >
+         <Image source={logo} style={{width: 30, height: 30}}></Image>
+       </TouchableOpacity>
+        ),
         headerStyle: {
-        backgroundColor: '#bf360c',
+          backgroundColor: '#bf360c',
         },
+        headerRight: () => (
+          <Button style={styles.basicButton} title = "Cerrar Sesion" onPress={() => this.SignOut()}></Button>
+        ),
         headerTintColor: '#fff',
         headerTitleStyle: {
         fontWeight: 'bold',
@@ -82,6 +93,7 @@ static navigationOptions = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     display: 'flex',
     paddingTop: 60,
     flexDirection: 'row',
@@ -90,7 +102,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   item: {
-    backgroundColor: '#4f83cc',
     width: 179,
     height: 89,
     marginLeft: 8,
@@ -98,14 +109,19 @@ const styles = StyleSheet.create({
   },
   itemText1: {
     textAlign: 'auto',
-    color: 'white',
+    color: 'black',
     padding: 20,
     fontSize: 13,
     fontFamily: 'roboto',
   },
-  basicImage: {
+  basicButton: {
     width: '10%',
     height: '10%',
+    alignSelf: 'stretch'
+  },
+  basicImage: {
+    width: '50%',
+    height: '50%',
     alignSelf: 'stretch'
   },
 });

@@ -63,11 +63,14 @@ class Login extends Component{
                 <TextInput style={styles.basicInput} 
                     onChangeText ={(user) => this.setState({user})}
                     value={this.state.user}
+                    placeholder="Please insert your E-Mail"
                 ></TextInput>
                 <Text style={styles.basicText}>Contraseña</Text>
                 <TextInput style={styles.basicInput}
                     onChangeText ={(passw) => this.setState({passw})}
                     value={this.state.passw}
+                    secureTextEntry={true}
+                    placeholder="Please insert your Password"
                 ></TextInput>
                 <View style={styles.basicButton}>
                     <Button title="Ingresar" color={buttonColor} onPress={() => this.SignIn(this.state.user, this.state.passw)}></Button>
