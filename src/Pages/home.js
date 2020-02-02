@@ -97,11 +97,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     paddingTop: 60,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignContent: 'space-between',
     flexWrap: 'wrap',
   },
   item: {
+    display: 'flex',
+    flexDirection: 'row',
     width: 179,
     height: 89,
     marginLeft: 8,
@@ -110,8 +112,8 @@ const styles = StyleSheet.create({
   itemText1: {
     textAlign: 'auto',
     color: 'black',
-    padding: 20,
-    fontSize: 13,
+    padding: 0,
+    fontSize: 17,
     fontFamily: 'roboto',
   },
   basicButton: {
