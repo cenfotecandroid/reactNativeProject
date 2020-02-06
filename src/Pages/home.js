@@ -14,8 +14,9 @@ import { firebase } from "@react-native-firebase/auth";
 import LogoTitle from './logo';
 import logo from '../Images/ham-icon.png';
 
+const buttonColor = "#008577";
+
 class Home extends Component{
-  
     componentDidMount() {
       this.props.getUsers();
       firebase.auth().onAuthStateChanged(user => {
@@ -53,24 +54,9 @@ class Home extends Component{
        );
     }
 
-  
-SignOut = () => {
-      console.warn('cerrar session');
-      firebase
-          .auth()
-          .signOut()
-          .then(function() {
-              this.props.navigation.navigate('Login');
-          })
-          .catch((error) => {
-              console.log(error.toString(error));
-          });        
-    }
-
     //Top Bar Style inside component
     
-static navigationOptions = ({ navigation }) => {
-  
+static navigationOptions = ({ navigation }) => {    
     return {
         headerTitle: () => (
         <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.openDrawer()} >
@@ -78,10 +64,10 @@ static navigationOptions = ({ navigation }) => {
        </TouchableOpacity>
         ),
         headerStyle: {
-          backgroundColor: '#bf360c',
+          backgroundColor: '#E26550',
         },
         headerRight: () => (
-          <Button style={styles.basicButton} title = "Cerrar Sesion" onPress={() => this.SignOut()}></Button>
+          <Button style={styles.basicButton} color={buttonColor} title = "Cerrar Sesion" onPress={() => navigation.navigate('Auth')}></Button>
         ),
         headerTintColor: '#fff',
         headerTitleStyle: {

@@ -34,7 +34,13 @@ class Login extends Component{
                     .signInWithEmailAndPassword(user, passw)
                     .then(user => { 
                             console.log(user);
-                            this.props.navigation.navigate('Home') 
+                            this.props.navigation.navigate('Home');
+                            
+                            //After login reset state
+                            this.setState({
+                                user: '',
+                                passw: ''
+                            });
                     })
                     .catch(error => {   
                         switch(error.code) {
@@ -59,18 +65,18 @@ class Login extends Component{
         return(
             <View style={styles.basicView}>
                 <Image source={require('../Images/billWallet.png')} style={styles.basicImage}></Image>
-                <Text style={styles.basicText}>Email</Text>
+                <Text style={styles.basicText}>E-mail</Text>
                 <TextInput style={styles.basicInput} 
                     onChangeText ={(user) => this.setState({user})}
                     value={this.state.user}
-                    placeholder="Please insert your E-Mail"
+                    placeholder="Ingrese aquí su e-mail"
                 ></TextInput>
                 <Text style={styles.basicText}>Contraseña</Text>
                 <TextInput style={styles.basicInput}
                     onChangeText ={(passw) => this.setState({passw})}
                     value={this.state.passw}
                     secureTextEntry={true}
-                    placeholder="Please insert your Password"
+                    placeholder="Ingrese aquí su contraseña"
                 ></TextInput>
                 <View style={styles.basicButton}>
                     <Button title="Ingresar" color={buttonColor} onPress={() => this.SignIn(this.state.user, this.state.passw)}></Button>

@@ -1,20 +1,75 @@
 import React, { Component } from "react";
 import { Text, TextInput, View, StyleSheet, Button, Image } from "react-native";
+import { firebase } from "@react-native-firebase/auth";
 
 const buttonColor = "#008577";
 
 class Register extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            passw: ''
+        };
+    }
+
+    Register = (email, passw) => {
+        if(email == '' || passw == ''){
+            alert('Por favor ingrese toda la información solicitada');
+        } 
+        else {
+            try {
+                firebase
+                    .auth()
+                    // Generate a Firebase credential
+                    .createUserWithEmailAndPassword(email, passw)
+                    .then(email => { 
+                            console.log(email);
+                            this.props.navigation.navigate('Home');
+
+                            //After signUp reset state
+                            this.setState({
+                                email: '',
+                                passw: ''
+                            });
+                    })
+                    .catch(error => {   
+                        switch(error.code) {
+                            case 'auth/invalid-email':
+                                alert('Formato de correo inválido')
+                                break;
+                            case 'auth/email-already-in-use':
+                                alert('Éste correo ya se encuentra registrado')
+                                break;
+                        }
+                    })
+            } catch (error) {
+                console.log(error.toString(error));
+            }
+        }
+    }
+    
+    
     render(){
         return(
             <View style={styles.basicView}>
                 <Text style={styles.basicText}>Correo</Text>
-                <TextInput style={styles.basicInput}></TextInput>
-                <Text style={styles.basicText}>Usuario</Text>
-                <TextInput style={styles.basicInput}></TextInput>
+                <TextInput style={styles.basicInput} 
+                    onChangeText ={(email) => this.setState({email})}
+                    value={this.state.email}
+                    placeholder="Ingrese aquí su e-mail"
+                ></TextInput>
+
                 <Text style={styles.basicText}>Contraseña</Text>
-                <TextInput style={styles.basicInput}></TextInput>
+                <TextInput style={styles.basicInput}
+                    onChangeText ={(passw) => this.setState({passw})}
+                    value={this.state.passw}
+                    secureTextEntry={true}
+                    placeholder="Ingrese aquí su contraseña"
+                ></TextInput>
+
                 <View style={styles.basicButton}>
-                    <Button title="Crear Usuario" color={buttonColor}></Button>
+                    <Button title="Crear Usuario" color={buttonColor} onPress={() => this.Register(this.state.email, this.state.passw)}></Button>                   
                 </View>
             </View>
     )} 
