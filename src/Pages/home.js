@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { 
-  ActivityIndicator, 
   Text, 
   View, 
   Image,
@@ -17,7 +16,8 @@ import logo from '../Images/ham-icon.png';
 const buttonColor = "#008577";
 
 class Home extends Component{
-    componentDidMount() {
+    
+  componentDidMount() {
       this.props.getUsers();
       firebase.auth().onAuthStateChanged(user => {
         this.props.navigation.navigate(user ? 'Home' : 'Login')
