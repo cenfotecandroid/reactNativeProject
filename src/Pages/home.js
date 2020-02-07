@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component,useState, useEffect } from "react";
 import { 
   ActivityIndicator, 
   Text, 
@@ -6,17 +6,48 @@ import {
   Image,
   Button,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import * as actions from '../actions/action-type';
 import {connect} from 'react-redux';
 import { firebase } from "@react-native-firebase/auth";
+import firestore from '@react-native-firebase/firestore';
 import LogoTitle from './logo';
 import logo from '../Images/ham-icon.png';
 
 const buttonColor = "#008577";
 
 class Home extends Component{
+
+  Todos = () => {
+  // ...
+  const [ loading, setLoading ] = useState(true);
+  const [ todos, setTodos ] = useState([]);
+  // ...
+  
+  useEffect(() => {
+    return ref.onSnapshot(querySnapshot => {
+      const list = [];
+      querySnapshot.forEach(doc => {
+        const { title, complete } = doc.data();
+        list.push({
+          id: doc.id,
+          title,
+          complete,
+        });
+      });
+
+      setTodos(list);
+
+      if (loading) {
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  // ...
+}
     componentDidMount() {
       this.props.getUsers();
       firebase.auth().onAuthStateChanged(user => {
@@ -25,6 +56,7 @@ class Home extends Component{
     }
     render(){
        return(
+         <ScrollView>
             <View style={styles.container}>
               <View>
                 {
@@ -50,7 +82,7 @@ class Home extends Component{
                   
                 </View>
             </View>
-            
+        </ScrollView>
        );
     }
 
