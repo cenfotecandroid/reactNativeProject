@@ -123,7 +123,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
      },
     basicButton: {
-        marginTop: 20
+        marginTop: 20,
+        marginRight: 21,
+        marginLeft: 21,
      },
      basicImage: {
          width: '50%',
