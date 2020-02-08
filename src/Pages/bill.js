@@ -55,16 +55,17 @@ class Bill extends Component{
         fileData: this.state.fileData,
       });
       Alert.alert(
-        'Alert Title',
-        'My Alert Msg',
+        'Su factura ha sido adjuntada con éxito!!',
+        'Desea agregar una nueva?',
         [
-          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => this.props.navigation.navigate("Home"),
             style: 'cancel',
           },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
+          {text: 'OK', onPress: () => this.setState({
+                                            monto: '',fecha: '', negocio: ''
+                                          })},
         ],
         {cancelable: false},
       );

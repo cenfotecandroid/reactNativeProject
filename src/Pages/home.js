@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignContent: 'space-around',
+    alignContent: 'center',
     alignItems: 'baseline',
     flexWrap: 'wrap',
   },
