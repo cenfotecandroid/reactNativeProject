@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Text, TextInput, View, StyleSheet, Button, Image } from "react-native";
 import { firebase } from "@react-native-firebase/auth";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const buttonColor = "#008577";
 
@@ -9,7 +10,8 @@ class Login extends Component{
         super(props);
         this.state = {
             user: '',
-            passw: ''
+            passw: '',
+            loading: false
         };
     }
     
@@ -27,19 +29,23 @@ class Login extends Component{
             alert('Debe ingresar usuario y/o contraseña');
         } 
         else {
+            //Loading Action
+            this.setState({ loading: true });
+
             try {
                 firebase
                     .auth()
                     // Generate a Firebase credential
                     .signInWithEmailAndPassword(user, passw)
                     .then(user => { 
-                            console.log(user);
+                            //console.log(user);
                             this.props.navigation.navigate('Home');
                             
                             //After login reset state
                             this.setState({
                                 user: '',
-                                passw: ''
+                                passw: '',
+                                loading: false
                             });
                     })
                     .catch(error => {   
@@ -52,18 +58,26 @@ class Login extends Component{
                                 break;
                             case 'auth/wrong-password':
                                 alert('Credenciales inválidas')
-                                break;    
+                                break;
                         }
+                        this.setState({ loading: false });
                     })
             } catch (error) {
                 console.log(error.toString(error));
+                this.setState({ loading: false });
             }
         }
     };    
 
     render(){
-        return(
+        return(                
             <View style={styles.basicView}>
+                <Spinner
+                    visible={this.state.loading}
+                    textContent={'Cargando...'}
+                    textStyle={styles.loading}
+                    overlayColor = "rgba(0, 0, 0, 0.8)"
+                />
                 <Image source={require('../Images/billWallet.png')} style={styles.basicImage}></Image>
                 <Text style={styles.basicText}>E-mail</Text>
                 <TextInput style={styles.basicInput} 
@@ -115,7 +129,12 @@ const styles = StyleSheet.create({
          width: '50%',
          height: '30%',
          alignSelf: 'center'
-     }
+     },
+     
+     loading: {
+        color: '#fff',
+        fontSize: 20,
+      }
 });
 
 export default Login

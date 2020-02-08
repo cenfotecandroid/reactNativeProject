@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Text, TextInput, View, StyleSheet, Button, Image } from "react-native";
 import { firebase } from "@react-native-firebase/auth";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const buttonColor = "#008577";
 
@@ -9,7 +10,8 @@ class Register extends Component{
         super(props);
         this.state = {
             email: '',
-            passw: ''
+            passw: '',
+            loading: false
         };
     }
 
@@ -18,6 +20,7 @@ class Register extends Component{
             alert('Por favor ingrese toda la información solicitada');
         } 
         else {
+            this.setState({ loading: true });
             try {
                 firebase
                     .auth()
@@ -30,7 +33,8 @@ class Register extends Component{
                             //After signUp reset state
                             this.setState({
                                 email: '',
-                                passw: ''
+                                passw: '',
+                                loading: false,
                             });
                     })
                     .catch(error => {   
@@ -42,17 +46,24 @@ class Register extends Component{
                                 alert('Éste correo ya se encuentra registrado')
                                 break;
                         }
+                        this.setState({ loading: false });
                     })
             } catch (error) {
                 console.log(error.toString(error));
+                this.setState({ loading: false });
             }
         }
     }
     
-    
     render(){
         return(
             <View style={styles.basicView}>
+                 <Spinner
+                    visible={this.state.loading}
+                    textContent={'Cargando...'}
+                    textStyle={styles.loading}
+                    overlayColor = "rgba(0, 0, 0, 0.8)"
+                />
                 <Text style={styles.basicText}>Correo</Text>
                 <TextInput style={styles.basicInput} 
                     onChangeText ={(email) => this.setState({email})}
@@ -98,6 +109,10 @@ const styles = StyleSheet.create({
     basicButton: {
         marginTop: 20
      },
+     loading: {
+        color: '#fff',
+        fontSize: 20,
+      }
 });
 
 export default Register

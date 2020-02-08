@@ -1,6 +1,5 @@
 import React, { Component,useState, useEffect } from "react";
 import { 
-  ActivityIndicator, 
   Text, 
   View, 
   Image,
@@ -19,36 +18,6 @@ import logo from '../Images/ham-icon.png';
 const buttonColor = "#008577";
 
 class Home extends Component{
-
-  Todos = () => {
-  // ...
-  const [ loading, setLoading ] = useState(true);
-  const [ todos, setTodos ] = useState([]);
-  // ...
-  
-  useEffect(() => {
-    return ref.onSnapshot(querySnapshot => {
-      const list = [];
-      querySnapshot.forEach(doc => {
-        const { title, complete } = doc.data();
-        list.push({
-          id: doc.id,
-          title,
-          complete,
-        });
-      });
-
-      setTodos(list);
-
-      if (loading) {
-        setLoading(false);
-      }
-    });
-  }, []);
-
-  // ...
-}
-    componentDidMount() {
       this.props.getUsers();
       firebase.auth().onAuthStateChanged(user => {
         this.props.navigation.navigate(user ? 'Home' : 'Login')

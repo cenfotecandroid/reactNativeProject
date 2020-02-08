@@ -1,20 +1,35 @@
 import React, { Component } from "react";
 import { firebase } from "@react-native-firebase/auth";
 import { View } from "react-native";
+import { NavigationActions } from 'react-navigation'
 
 class GeneralAuth extends Component{
     componentDidMount() {
-        firebase
-        .auth()
-        .signOut()
-        .then(function() {
-            this.props.navigation.navigate('Login');
+        const navigator = this.props.navigation;
+        //var isLogged = false;
+        /*
+        firebase.auth().onAuthStateChanged(user => {
+          if (user){
+              isLogged = true;    
+          }
         })
-        .catch((error) => {
-            console.log(error.toString(error));
-        });  
+*/
+  //      if (isLogged) {
+            firebase
+            .auth()
+            .signOut()
+            .then(function() {
+                navigator.dispatch(NavigationActions.reset({
+                    index: 0,
+                    key: null,
+                    actions: [NavigationActions.navigate({ routeName: 'Login' })]
+                }))
+            })
+            .catch((error) => {
+                console.log(error.toString(error));
+            });  
+        //}
       }
-
       render(){
           return(
               <View></View>
