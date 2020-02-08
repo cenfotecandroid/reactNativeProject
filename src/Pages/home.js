@@ -74,7 +74,12 @@ class Home extends Component{
                 item => (
                 <TouchableOpacity
                     key={item.key}
-                    onPress={() => console.warn('Pressed')
+                    onPress={
+                      () => this.props.navigation.navigate("BillInfo",{
+                          monto: item.monto,
+                          negocio: item.store,
+                          fechaCompra: item.fechaVencimiento,
+                      })
                     }
                     >
                     <View style={styles.item}>
@@ -83,7 +88,7 @@ class Home extends Component{
                         style={styles.basicImage}
                     />
                     <Text style={styles.itemText1}>{item.store}</Text>
-                    <Text style={styles.itemText1}>{item.monto}</Text>
+                    <Text style={styles.itemText2}>{item.monto}</Text>
                     </View>
                 </TouchableOpacity>
                 ))
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignContent: 'space-between',
+    alignContent: 'flex-start',
     flexWrap: 'wrap',
   },
   containerFloating: {
@@ -140,8 +145,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     paddingTop: 60,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignContent: 'space-between',
+    justifyContent: 'flex-start',
+    alignContent: 'space-around',
+    alignItems: 'baseline',
     flexWrap: 'wrap',
   },
   item: {
@@ -154,9 +160,19 @@ const styles = StyleSheet.create({
   },
   itemText1: {
     display: 'flex',
-    textAlign: 'center',
+    flexDirection: 'column',
     color: 'black',
     padding: 0,
+    fontSize: 17,
+    flexWrap: 'wrap',
+    fontFamily: 'roboto-bold',
+  },
+  itemText2: {
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'center',
+    color: 'black',
+    paddingLeft: 13,
     fontSize: 17,
     fontFamily: 'roboto-bold',
   },
