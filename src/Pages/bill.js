@@ -10,6 +10,7 @@ import {
   Link,
   ActivityIndicator,
   TextInput,
+  Alert,
 } from "react-native";
 import * as actions from '../actions/action-type';
 import {connect} from 'react-redux';
@@ -26,11 +27,47 @@ class Bill extends Component{
         this.ref = firebase.firestore().collection('facturas');
         this.state = {
           loading: true,
-          factura: {},
+          monto: "",
+          fecha: "",
+          negocio: "",
           filePath: "",
           fileData: {},
           fileUri: ""
         };
+    }
+
+    setMonto = (text) =>{
+      this.setState({ monto: text });
+    }
+    setFecha = (text) =>{
+      this.setState({ fecha: text });
+    }
+    setNegocio = (text) =>{
+      this.setState({ negocio: text });
+    }
+    addBill = () =>{
+      this.ref.add({
+        monto: parseInt(this.state.monto),
+        fechaVencimiento: this.state.fecha,
+        store: this.state.negocio,
+        filePath: this.state.filePath,
+        fileUri: this.state.fileUri,
+        fileData: this.state.fileData,
+      });
+      Alert.alert(
+        'Alert Title',
+        'My Alert Msg',
+        [
+          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+      );
     }
 
   componentDidMount(){
@@ -54,18 +91,19 @@ class Bill extends Component{
         <View style={styles.container}>
             <View style={styles.item}>
             <TextInput
+            keyboardType="numeric"
                 style={styles.textInput}
-                onChangeText={text => onChangeText(text)}
+                onChangeText={text => this.setMonto(text)}
                 placeholder = "Monto Pagado" 
             />
             <TextInput
                 style={styles.textInput}
-                onChangeText={text => onChangeText(text)}
+                onChangeText={text => this.setNegocio(text)}
                 placeholder = "Nombre del Negocio" 
             />
             <TextInput
                 style={styles.textInput}
-                onChangeText={text => onChangeText(text)}
+                onChangeText={text => this.setFecha(text)}
                 placeholder="Ingrese la fecha"
             />
             <Button
@@ -77,6 +115,18 @@ class Bill extends Component{
               title="Upload Photo"
             />
             </View>
+            <TouchableOpacity
+            style={
+                  styles.floatingButton
+                }
+            >
+              <Button
+              style={styles.basicfloating}
+              color='#008577'
+                onPress={() => this.addBill()}
+                title="Agregar Factura"
+              />
+            </TouchableOpacity>
         </View>
        );
       }
@@ -200,8 +250,17 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto-bold',
   },
   basicfloating: {
-    backgroundColor: '#008577',
-    color: '#008577',
+    color: "#fff",
+    flexDirection: 'row',
+    alignItems:'center',
+    justifyContent:'center',
+    alignContent: 'center',
+    position: 'absolute',                                          
+    bottom: 0,                                                    
+    right: 20,
+    left: 20,
+    height:70,
+    backgroundColor:'#fff',
   },
   basicLink: {
     color: "#008577",
@@ -216,6 +275,19 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     alignSelf: 'stretch'
+  },
+  floatingButton: {
+    color: "#fff",
+    flexDirection: 'row',
+    alignItems:'center',
+    justifyContent:'center',
+    alignContent: 'center',
+    position: 'absolute',                                          
+    bottom: 0,                                                    
+    right: 20,
+    left: 20,
+    height:70,
+    backgroundColor:'#fff',
   }
 });
 

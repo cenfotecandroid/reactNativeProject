@@ -106,6 +106,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     height: 40, 
+    fontSize: 17,
+    flexWrap: 'wrap',
+    fontFamily: 'roboto-bold',
   },
   itemText1: {
     display: 'flex',
