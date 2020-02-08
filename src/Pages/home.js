@@ -74,7 +74,12 @@ class Home extends Component{
                 item => (
                 <TouchableOpacity
                     key={item.key}
-                    onPress={() => console.warn('Pressed')
+                    onPress={
+                      () => this.props.navigation.navigate("BillInfo",{
+                          monto: item.monto,
+                          negocio: item.store,
+                          fechaCompra: item.fechaVencimiento,
+                      })
                     }
                     >
                     <View style={styles.item}>

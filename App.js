@@ -12,6 +12,7 @@ import LoginScreen from './src/Pages/login';
 import RegisterScreen from './src/Pages/register';
 import HomeScreen from './src/Pages/home';
 import BillScreen from './src/Pages/bill';
+import BillScreenInfo from './src/Pages/bill-info';
 
 //General
 import GeneralAuth from './src/Utilities/GeneralAuth';
@@ -53,12 +54,21 @@ const AddBill = createStackNavigator(
   }
 );
 
+const SeeBill = createStackNavigator(
+  { 
+    BillInfo:BillScreenInfo,
+  },
+  { 
+    initialRouteName: 'BillInfo'
+  }
+);
+
 const AppNavigator = createDrawerNavigator(
   {
     Login: LoginStack,
     Home: AppStack,
+    billdetails: SeeBill,
     'Agregar Factura': AddBill,
-    'Cerrar Sesion': AuthStack,
   },
   {
     drawerWidth: '40%',

@@ -17,6 +17,7 @@ import { firebase } from "@react-native-firebase/auth";
 import { firestore } from '@react-native-firebase/firestore';
 import LogoTitle from './logo';
 import logo from '../Images/back-arrow.png';
+import ImagePicker from 'react-native-image-picker';
 
 class Bill extends Component{
 
@@ -25,7 +26,10 @@ class Bill extends Component{
         this.ref = firebase.firestore().collection('facturas');
         this.state = {
           loading: true,
-          factura: {}
+          factura: {},
+          filePath: "",
+          fileData: {},
+          fileUri: ""
         };
     }
 
@@ -37,6 +41,7 @@ class Bill extends Component{
     }
     render(){
       const {loading} = this.state;
+      
 
       if (loading) {
         return(
@@ -63,11 +68,77 @@ class Bill extends Component{
                 onChangeText={text => onChangeText(text)}
                 placeholder="Ingrese la fecha"
             />
+            <Button
+              onPress={() => this.showTakePhoto()}
+              title="Take Photo"
+            />
+            <Button
+              onPress={() => this.uploadPhoto()}
+              title="Upload Photo"
+            />
             </View>
         </View>
        );
       }
     }
+
+uploadPhoto=()=>{
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchImageLibrary(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log('response', JSON.stringify(response.data));
+        this.setState({
+          filePath: response,
+          fileData: response.data,
+          fileUri: response.uri
+        });
+      }
+    });
+  }
+
+showTakePhoto = () =>{
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchCamera(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log('response', JSON.stringify(response));
+        this.setState({
+          filePath: response,
+          fileData: response.data,
+          fileUri: response.uri
+        });
+      }
+    });
+  }
 
     //Top Bar Style inside component
     
@@ -140,8 +211,25 @@ const styles = StyleSheet.create({
     width: '50%',
     height: '50%',
     alignSelf: 'stretch'
+  },
+  uploadAvatar: {
+    width: 50,
+    height: 50,
+    alignSelf: 'stretch'
   }
 });
 
+function mapStateToProps(state){
+    return{
+        users: state.user.userList
+    };
+}
 
-export default Bill;
+function mapDispatchToProps(dispatch){
+    return{
+        getUsers: () => dispatch(actions.getUsers()),
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Bill);
