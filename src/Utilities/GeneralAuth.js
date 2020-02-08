@@ -6,15 +6,6 @@ import { NavigationActions } from 'react-navigation'
 class GeneralAuth extends Component{
     componentDidMount() {
         const navigator = this.props.navigation;
-        //var isLogged = false;
-        /*
-        firebase.auth().onAuthStateChanged(user => {
-          if (user){
-              isLogged = true;    
-          }
-        })
-*/
-  //      if (isLogged) {
             firebase
             .auth()
             .signOut()

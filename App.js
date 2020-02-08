@@ -11,6 +11,7 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 import LoginScreen from './src/Pages/login';
 import RegisterScreen from './src/Pages/register';
 import HomeScreen from './src/Pages/home';
+import BillScreen from './src/Pages/bill';
 
 //General
 import GeneralAuth from './src/Utilities/GeneralAuth';
@@ -36,10 +37,19 @@ const AppStack = createStackNavigator(
 
 const AuthStack = createStackNavigator(
   { 
-    Auth: GeneralAuth,
+    Auth:GeneralAuth,
   },
   { 
     initialRouteName: 'Auth'
+  }
+);
+
+const AddBill = createStackNavigator(
+  { 
+    Bill:BillScreen,
+  },
+  { 
+    initialRouteName: 'Bill'
   }
 );
 
@@ -47,14 +57,12 @@ const AppNavigator = createDrawerNavigator(
   {
     Login: LoginStack,
     Home: AppStack,
-    Auth: AuthStack
+    'Agregar Factura': AddBill,
+    'Cerrar Sesion': AuthStack,
   },
   {
     drawerWidth: '40%',
     drawerBackgroundColor: '#E26550',
-    contentOptions: {
-      activeTintColor: '#fff',
-    },
     initialRouteName: "Login"
   }
 );
