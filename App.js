@@ -45,9 +45,7 @@ const AuthStack = createStackNavigator(
 
 const AppNavigator = createDrawerNavigator(
   {
-    Login: {
-      screen: LoginStack,
-    },
+    Login: LoginStack,
     Home: AppStack,
     Auth: AuthStack
   },
